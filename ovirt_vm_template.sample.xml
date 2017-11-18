@@ -1,0 +1,28 @@
+<vm>
+  <name>{{.Hostname}}</name>
+  <cluster>
+    <name>{{.Cluster}}</name>
+  </cluster>
+  <template>
+    <name>{{.Template}}</name>
+  </template>
+  <initialization>
+    <cloud_init>
+      <host>
+        <address>{{.Hostname}}</address>
+      </host>
+      <network_configuration>
+        <nics>
+          <nic>
+            <name>ens3</name>
+            <boot_protocol>static</boot_protocol>
+            <network>
+              <ip address="{{.Ipv4.Address}}" netmask="{{.Ipv4.Netmask}}" gateway="{{.Ipv4.Gateway}}" />
+            </network>
+            <on_boot>true</on_boot>
+          </nic>
+        </nics>
+      </network_configuration>
+    </cloud_init>
+  </initialization>
+</vm>
