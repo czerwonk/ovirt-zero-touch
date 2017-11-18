@@ -8,11 +8,11 @@ type Request struct {
 	Ipv4     struct {
 		Address string `json:"address"`
 		Netmask string `json:"netmask"`
-		Gateway string `json:"gateway"`
-	} `json:"ipv4"`
+		Gateway string `json:"gateway,omitempty"`
+	} `json:"ipv4,omitempty"`
 	Ipv6 struct {
 		Address string `json:"address"`
 		Netmask string `json:"netmask"`
-		Gateway string `json:"gateway"`
-	} `json:"ipv6"`
+		Gateway string `json:"gateway,omitempty"`
+	} `json:"ipv6,omitempty"`
 }
