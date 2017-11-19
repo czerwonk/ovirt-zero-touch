@@ -98,7 +98,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) error {
 }
 
 func createVm(vm *Request) ([]byte, error) {
-	client, err := ovirt_api.NewClient(*apiUrl, *user, *pass, *insecure, &logger{})
+	client, err := ovirt_api.NewClient(*apiUrl, *user, *pass, *insecure)
 	if err != nil {
 		return nil, err
 	}
