@@ -18,7 +18,7 @@ import (
 	"github.com/czerwonk/ovirt_api"
 )
 
-const version string = "0.1.0"
+const version string = "0.1.1"
 
 var (
 	showVersion   = flag.Bool("version", false, "Prints version info")
@@ -63,7 +63,7 @@ func errorHandler(f func(http.ResponseWriter, *http.Request) error) http.Handler
 		err := f(w, r)
 
 		if err != nil {
-			log.Fatalln(err)
+			log.Println("ERROR: "+err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	}
