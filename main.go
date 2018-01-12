@@ -15,7 +15,7 @@ import (
 
 	"encoding/json"
 
-	"github.com/czerwonk/ovirt_api"
+	"github.com/czerwonk/ovirt_api/api"
 )
 
 const version string = "0.1.1"
@@ -25,7 +25,7 @@ var (
 	listenAddress = flag.String("listen-address", ":11337", "Address to listen for web service requests")
 	user          = flag.String("username", "user@internal", "API username")
 	pass          = flag.String("password", "", "API password")
-	apiUrl        = flag.String("api-url", "https://ovirt.engine/ovirt-engine/api", "API url")
+	apiURL        = flag.String("api-url", "https://ovirt.engine/ovirt-engine/api", "API url")
 	insecure      = flag.Bool("insecure", false, "Skip SSL verification")
 	templateFile  = flag.String("template", "ovirt_vm_template.xml", "Template file path")
 )
@@ -87,7 +87,7 @@ func handleRequest(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	b, err := createVm(&vm)
+	b, err := createVM(&vm)
 	if err != nil {
 		return err
 	}
@@ -97,13 +97,13 @@ func handleRequest(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func createVm(vm *Request) ([]byte, error) {
-	client, err := ovirt_api.NewClient(*apiUrl, *user, *pass, *insecure)
+func createVM(vm *Request) ([]byte, error) {
+	client, err := api.NewClient(*apiURL, *user, *pass, *insecure)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := getVmCreateRequest(vm)
+	body, err := getVMCreateRequest(vm)
 	if err != nil {
 		return nil, err
 	}
@@ -116,7 +116,7 @@ func createVm(vm *Request) ([]byte, error) {
 	return b, nil
 }
 
-func getVmCreateRequest(vm *Request) (io.Reader, error) {
+func getVMCreateRequest(vm *Request) (io.Reader, error) {
 	w := &bytes.Buffer{}
 
 	b, err := ioutil.ReadFile(*templateFile)

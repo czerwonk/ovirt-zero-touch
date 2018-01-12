@@ -4,12 +4,12 @@
 [[projects]]
   branch = "master"
   name = "github.com/czerwonk/ovirt_api"
-  packages = ["."]
-  revision = "14083a165e717cc89e86cadae900504a8ab01d31"
+  packages = ["api"]
+  revision = "98213d381724a4cb7e722a4f5f8b111c8173293c"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "372b36e47bda2044ddac9a0e5cddd3381a062a847d29291644ebcd44b0ed94bd"
+  inputs-digest = "8204a133b2e42a5eeda729583dc569b166cfcf5bcba89404ab634de59c2b364e"
   solver-name = "gps-cdcl"
   solver-version = 1

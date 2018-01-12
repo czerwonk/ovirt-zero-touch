@@ -1,5 +1,6 @@
 package main
 
+// Request provides the required information to provision a VM based on a template
 type Request struct {
 	Id       string `json:"id"`
 	Hostname string `json:"hostname"`
