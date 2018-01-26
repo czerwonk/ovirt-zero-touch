@@ -98,7 +98,12 @@ func handleRequest(w http.ResponseWriter, r *http.Request) error {
 }
 
 func createVM(vm *Request) ([]byte, error) {
-	client, err := api.NewClient(*apiURL, *user, *pass, *insecure)
+	opts := []api.ClientOption{}
+	if *insecure {
+		opts = append(opts, api.WithInsecure())
+	}
+
+	client, err := api.NewClient(*apiURL, *user, *pass, opts...)
 	if err != nil {
 		return nil, err
 	}
