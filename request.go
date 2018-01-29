@@ -2,7 +2,7 @@ package main
 
 // Request provides the required information to provision a VM based on a template
 type Request struct {
-	Id       string `json:"id"`
+	ID       string `json:"id"`
 	Hostname string `json:"hostname"`
 	Cluster  string `json:"cluster"`
 	Template string `json:"template"`
@@ -16,4 +16,6 @@ type Request struct {
 		Netmask string `json:"netmask"`
 		Gateway string `json:"gateway,omitempty"`
 	} `json:"ipv6,omitempty"`
+	Memory   int `json:"memory_bytes,omitempty"`
+	CPUCores int `json:"cpu_cores,omitempty"`
 }

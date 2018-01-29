@@ -6,6 +6,16 @@
   <template>
     <name>{{.Template}}</name>
   </template>
+  <disks>
+    <clone>true</clone>
+  </disks>
+  <memory>{{.Memory}}</memory>
+  <cpu>
+    <topology>
+      <cores>1</cores>
+      <sockets>{{.CPUCores}}</sockets>
+    </topology>
+  </cpu>
   <initialization>
     <cloud_init>
       <host>
@@ -18,6 +28,7 @@
             <boot_protocol>static</boot_protocol>
             <network>
               <ip address="{{.Ipv4.Address}}" netmask="{{.Ipv4.Netmask}}" gateway="{{.Ipv4.Gateway}}" />
+              <ip address="{{.Ipv6.Address}}" netmask="{{.Ipv6.Netmask}}" gateway="{{.Ipv6.Gateway}}" />
             </network>
             <on_boot>true</on_boot>
           </nic>

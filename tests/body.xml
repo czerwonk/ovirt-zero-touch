@@ -1,0 +1,39 @@
+<vm>
+  <name>testhost</name>
+  <cluster>
+    <name>cluster1</name>
+  </cluster>
+  <template>
+    <name>template1</name>
+  </template>
+  <disks>
+    <clone>true</clone>
+  </disks>
+  <memory>1073741824</memory>
+  <cpu>
+    <topology>
+      <cores>1</cores>
+      <sockets>4</sockets>
+    </topology>
+  </cpu>
+  <initialization>
+    <cloud_init>
+      <host>
+        <address>testhost</address>
+      </host>
+      <network_configuration>
+        <nics>
+          <nic>
+            <name>ens3</name>
+            <boot_protocol>static</boot_protocol>
+            <network>
+              <ip address="192.168.1.100" netmask="255.255.255.255" gateway="192.168.1.1" />
+              <ip address="2001:678:1e0::f00" netmask="128" gateway="2001:678:1e0::1" />
+            </network>
+            <on_boot>true</on_boot>
+          </nic>
+        </nics>
+      </network_configuration>
+    </cloud_init>
+  </initialization>
+</vm>

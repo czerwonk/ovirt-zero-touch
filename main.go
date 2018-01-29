@@ -1,24 +1,17 @@
 package main
 
 import (
-	"bytes"
 	"flag"
-	"io"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"text/template"
-
-	"fmt"
-
 	"os"
-
-	"encoding/json"
 
 	"github.com/czerwonk/ovirt_api/api"
 )
 
-const version string = "0.1.1"
+const version string = "0.2.0"
 
 var (
 	showVersion   = flag.Bool("version", false, "Prints version info")
@@ -28,6 +21,7 @@ var (
 	apiURL        = flag.String("api-url", "https://ovirt.engine/ovirt-engine/api", "API url")
 	insecure      = flag.Bool("insecure", false, "Skip SSL verification")
 	templateFile  = flag.String("template", "ovirt_vm_template.xml", "Template file path")
+	debug         = flag.Bool("debug", false, "Enables verbose output")
 )
 
 func init() {
@@ -46,10 +40,12 @@ func main() {
 		os.Exit(0)
 	}
 
-	http.HandleFunc("/", errorHandler(handleRequest))
 	log.Println("ovirt-zero-touch " + version)
+
+	h := newHandler(newAPIClient, loadTemaplate)
+
 	log.Println("Server started. Start listening on " + *listenAddress)
-	log.Fatal(http.ListenAndServe(*listenAddress, nil))
+	log.Fatal(http.ListenAndServe(*listenAddress, h))
 }
 
 func printVersion() {
@@ -58,82 +54,28 @@ func printVersion() {
 	fmt.Println("Author(s): Daniel Czerwonk")
 }
 
-func errorHandler(f func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		err := f(w, r)
-
-		if err != nil {
-			log.Printf("ERROR: %s\n", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}
+func loadTemaplate() ([]byte, error) {
+	return ioutil.ReadFile(*templateFile)
 }
 
-func handleRequest(w http.ResponseWriter, r *http.Request) error {
-	if r.Method != "POST" {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-		return nil
-	}
-
-	defer r.Body.Close()
-	bytes, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return err
-	}
-
-	vm := Request{}
-	err = json.Unmarshal(bytes, &vm)
-	if err != nil {
-		return err
-	}
-
-	b, err := createVM(&vm)
-	if err != nil {
-		return err
-	}
-
-	w.Write(b)
-
-	return nil
+type apiClientAdapter struct {
+	*api.Client
 }
 
-func createVM(vm *Request) ([]byte, error) {
+func newAPIClient() (apiClient, error) {
 	opts := []api.ClientOption{}
 	if *insecure {
 		opts = append(opts, api.WithInsecure())
 	}
 
-	client, err := api.NewClient(*apiURL, *user, *pass, opts...)
+	if *debug {
+		opts = append(opts, api.WithDebug())
+	}
+
+	c, err := api.NewClient(*apiURL, *user, *pass, opts...)
 	if err != nil {
 		return nil, err
 	}
 
-	body, err := getVMCreateRequest(vm)
-	if err != nil {
-		return nil, err
-	}
-
-	b, err := client.SendRequest("vms", "POST", body)
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
-}
-
-func getVMCreateRequest(vm *Request) (io.Reader, error) {
-	w := &bytes.Buffer{}
-
-	b, err := ioutil.ReadFile(*templateFile)
-	if err != nil {
-		return w, err
-	}
-
-	tmpl, err := template.New("create-vm").Parse(string(b))
-	if err != nil {
-		return w, err
-	}
-
-	tmpl.Execute(w, vm)
-	return w, nil
+	return &apiClientAdapter{c}, nil
 }
