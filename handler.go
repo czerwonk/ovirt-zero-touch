@@ -55,7 +55,6 @@ func (h *handler) handleRequest(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return err
 	}
-	vm.Memory *= 1048576 // MB -> Bytes
 
 	b, err := h.createVM(&vm)
 	if err != nil {

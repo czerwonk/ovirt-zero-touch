@@ -16,6 +16,6 @@ type Request struct {
 		Netmask string `json:"netmask"`
 		Gateway string `json:"gateway,omitempty"`
 	} `json:"ipv6,omitempty"`
-	Memory   int `json:"memory_mb,omitempty"`
-	CPUCores int `json:"cpu_cores,omitempty"`
+	Memory   *MemorySize `json:"memory_mb,omitempty"`
+	CPUCores int         `json:"cpu_cores,omitempty"`
 }
