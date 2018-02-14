@@ -20,6 +20,7 @@ func (m *MemorySize) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// String returns the string representation of MemorySize
 func (m *MemorySize) String() string {
 	return strconv.Itoa(m.value)
 }
