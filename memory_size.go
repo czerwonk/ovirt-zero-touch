@@ -9,7 +9,7 @@ type MemorySize struct {
 	value int
 }
 
-// UnmarshalJSON unmarshals an JSON string
+// UnmarshalJSON unmarshals a JSON string
 func (m *MemorySize) UnmarshalJSON(data []byte) error {
 	s, err := strconv.Atoi(string(data))
 	if err != nil {
