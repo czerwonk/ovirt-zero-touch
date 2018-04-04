@@ -3,13 +3,22 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/alecthomas/template"
+  packages = [
+    ".",
+    "parse"
+  ]
+  revision = "a0175ee3bccc567396460bf5acd36800cb10c49c"
+
+[[projects]]
+  branch = "master"
   name = "github.com/czerwonk/ovirt_api"
   packages = ["api"]
-  revision = "2fb93b9160cd56ea3f21e806c9a809694bc94db7"
+  revision = "63e3f014686cc5c23c6d2dbcdb95cc2d3351ff99"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8204a133b2e42a5eeda729583dc569b166cfcf5bcba89404ab634de59c2b364e"
+  inputs-digest = "ae7f1745bf414828b4152bdc9d1c4e4811eece3bd700209830f2c3ef9f827d24"
   solver-name = "gps-cdcl"
   solver-version = 1

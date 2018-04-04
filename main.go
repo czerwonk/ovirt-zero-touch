@@ -11,7 +11,7 @@ import (
 	"github.com/czerwonk/ovirt_api/api"
 )
 
-const version string = "0.2.1"
+const version string = "0.2.2"
 
 var (
 	showVersion   = flag.Bool("version", false, "Prints version info")
