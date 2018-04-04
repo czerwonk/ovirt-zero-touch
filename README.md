@@ -5,9 +5,6 @@
 
 Provision oVirt VMs with ease
 
-## Remarks
-this is an early version
-
 ## Install
 ```
 go get -u github.com/czerwonk/ovirt-zero-touch
