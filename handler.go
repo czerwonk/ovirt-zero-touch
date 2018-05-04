@@ -78,7 +78,7 @@ func (h *handler) createVM(vm *Request) ([]byte, error) {
 		return nil, err
 	}
 
-	b, err := client.SendRequest("vms", "POST", body)
+	b, err := client.SendRequest("vms?clone=true", "POST", body)
 	if err != nil {
 		return nil, err
 	}
