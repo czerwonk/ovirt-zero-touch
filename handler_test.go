@@ -21,7 +21,7 @@ type mock struct {
 func (m *mock) SendRequest(path, method string, body io.Reader) ([]byte, error) {
 	m.called = true
 
-	if path != "vms" {
+	if path != "vms?clone=true" {
 		m.t.Fatalf("expected call with path 'vms', got %s", path)
 	}
 
